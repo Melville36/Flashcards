@@ -1,10 +1,8 @@
-//Use inquirer to prompt users with the front of the flash card
 var inquirer = require("inquirer");
 
-//Basic Cards constructor will import the front and back of each flashcard to allow the users to guess the answer
-var BasicCards = function(front, back, num){
-	this.front = front;
-	this.back = back;
+var ClozeCard = function(partial, cloze, num){
+	this.partial = partial;
+	this.cloze = cloze;
 	this.num = num;
 	this.question = function(){
 			if(this.num == 1){
@@ -12,16 +10,16 @@ var BasicCards = function(front, back, num){
 					{ 
 						type: "input",
 				    	name: "userGuess",
-				    	message: front
+				    	message: partial
 					}
 
 				]).then(function(ans){
 					if(ans.userGuess === "George Washington"){
-						console.log("Correct!");
-						question2();
+						console.log("Correct! George Washington was the first president of the United States.");
+						question5();
 					}else {
 						console.log("Incorrect, the correct answer is 'George Washington' ");
-						question2();
+						question5();
 					}
 				});
 			}
@@ -30,16 +28,16 @@ var BasicCards = function(front, back, num){
 					{ 
 						type: "input",
 				    	name: "userGuess",
-				    	message: front
+				    	message: partial
 					}
 
 				]).then(function(ans){
 					if(ans.userGuess === "New England Patriots"){
-						console.log("Correct!");
-						question3();
+						console.log("Correct! New England Patriots won the super bowl last season.");
+						question6();
 					}else {
 						console.log("Incorrect, the correct answer is 'New England Patriots' ");
-						question3();
+						question6();
 					}
 				});
 			}
@@ -48,16 +46,16 @@ var BasicCards = function(front, back, num){
 					{ 
 						type: "input",
 				    	name: "userGuess",
-				    	message: front
+				    	message: partial
 					}
 
 				]).then(function(ans){
 					if(ans.userGuess === "144"){
-						console.log("Correct!");
-						newGame();
+						console.log("Correct! 12*12 = 144");
+						newClozeGame();
 					}else {
 						console.log("Incorrect, the correct answer is '144' ");
-						newGame();
+						newClozeGame();
 					}
 				});
 			}
@@ -74,7 +72,7 @@ var BasicCards = function(front, back, num){
 			]).then(function(ans){
 				if(ans.play == "Yes"){
 					console.log("Awesome!");
-					question1();
+					question4();
 				}else{
 					console.log("Ok, come back soon!");
 				}
@@ -83,32 +81,27 @@ var BasicCards = function(front, back, num){
 	}
 }
 
-	//Basic Flashcards
-	var firstPresident = new BasicCards("Who was the first president of the United States?","George Washington",1);
-	var superBowlChampions = new BasicCards("Who won the super bowl last season?","New England Patriots",2);
-	var math = new BasicCards("What is 12*12?","144",3);
+	//Cloze Flashcards
+	var firstPresidentCloze = new ClozeCard("...was the first president of the United States.", "George Washington",1);
+	var superBowlChampionsCloze = new ClozeCard("...won the super bowl last season.","New England Patriots",2);
+	var mathCloze = new ClozeCard("12*12 = ...","144",3);
+	var resetCloze = new ClozeCard();
 
-	var reset = new BasicCards();
-
-
-	function question1() {
-		firstPresident.question();
+	function question4() {
+		firstPresidentCloze.question();
 	}
 
-	function question2(){
-		superBowlChampions.question();
+	function question5(){
+		superBowlChampionsCloze.question();
 	}
 
-	function question3(){
-		math.question();
+	function question6(){
+		mathCloze.question();
 	}
 
-	function newGame(){
-		reset.replay();
+	function newClozeGame(){
+		resetCloze.replay();
 	}
 
-
-module.exports = BasicCards;
-
-
+module.exports = ClozeCard;
 
